@@ -17,7 +17,6 @@ resource "spacelift_policy" "access" {
 resource "spacelift_policy_attachment" "access" {
   policy_id = spacelift_policy.access.id
   stack_id  = spacelift_stack.managed.id
-  space_id  = "root"
 }
 
 # PLAN POLICY

@@ -17,6 +17,7 @@ resource "spacelift_policy" "access" {
 resource "spacelift_policy_attachment" "access" {
   policy_id = spacelift_policy.access.id
   stack_id  = spacelift_stack.managed.id
+  space_id  = "root"
 }
 
 # PLAN POLICY
@@ -32,6 +33,7 @@ resource "spacelift_policy" "plan" {
 
   name = "Enforce password strength"
   body = file("${path.module}/policies/plan.rego")
+  space_id  = "root"
 }
 
 # Plan policies only take effect when attached to the stack.
@@ -55,6 +57,7 @@ resource "spacelift_policy" "push" {
 
   name = "Ignore commits outside the project root"
   body = file("${path.module}/policies/push.rego")
+  space_id  = "root"
 }
 
 # Push policies only take effect when attached to the stack.
@@ -76,6 +79,7 @@ resource "spacelift_policy" "trigger" {
 
   name = "Trigger stacks that declare an explicit dependency"
   body = file("${path.module}/policies/trigger.rego")
+  space_id  = "root"
 }
 
 # Trigger policies only take effect when attached to the stack.
@@ -107,4 +111,5 @@ resource "spacelift_policy" "login" {
 
   name = "DevOps are admins"
   body = file("${path.module}/policies/login.rego")
+  space_id  = "root"
 }

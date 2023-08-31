@@ -32,7 +32,6 @@ resource "spacelift_policy" "plan" {
 
   name = "Enforce password strength"
   body = file("${path.module}/policies/plan.rego")
-  space_id  = "root"
 }
 
 # Plan policies only take effect when attached to the stack.
@@ -56,7 +55,6 @@ resource "spacelift_policy" "push" {
 
   name = "Ignore commits outside the project root"
   body = file("${path.module}/policies/push.rego")
-  space_id  = "root"
 }
 
 # Push policies only take effect when attached to the stack.
@@ -110,5 +108,4 @@ resource "spacelift_policy" "login" {
 
   name = "DevOps are admins"
   body = file("${path.module}/policies/login.rego")
-  space_id  = "root"
 }

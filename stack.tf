@@ -4,7 +4,7 @@ resource "spacelift_stack" "managed" {
   name        = "Managed stack"
   description = "Your first stack managed by Terraform"
 
-  repository   = "bsamunit-sandbox-projects/gcp-sb-spacelift" 
+  repository   = "gcp-sb-spacelift" 
   branch       = "main"
   project_root = "managed-stack"
 

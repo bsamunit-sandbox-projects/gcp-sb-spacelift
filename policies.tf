@@ -6,19 +6,19 @@
 # You can read more about access policies here:
 #
 # https://docs.spacelift.io/concepts/policy/stack-access-policy
-resource "spacelift_policy" "access" {
-  type = "ACCESS"
-
-  name = "All of Engineering gets read access"
-  body = file("${path.module}/policies/access.rego")
-  space_id  = "root"
-}
+# BT 9/1/23 We don't need access policy anymore as we can use spaces
+# resource "spacelift_policy" "access" {
+#   type = "ACCESS"
+# 
+#   name = "All of Engineering gets read access"
+#   body = file("${path.module}/policies/access.rego")
+# }
 
 # Access policies only take effect when attached to the stack.
-resource "spacelift_policy_attachment" "access" {
-  policy_id = spacelift_policy.access.id
-  stack_id  = spacelift_stack.managed.id
-}
+# resource "spacelift_policy_attachment" "access" {
+#   policy_id = spacelift_policy.access.id
+#   stack_id  = spacelift_stack.managed.id
+# }
 
 # PLAN POLICY
 #

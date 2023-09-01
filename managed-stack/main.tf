@@ -10,14 +10,26 @@ provider "google" {
 }
 
 variable "env_code" {
-  description = "A variable to hold Env Code"
+  description = "Prefix for the GCP storage bucket"
   type        = string
-  // Optionally, you can provide a default if necessary
 }
+
+variable "bucket_name" {
+  description = "Name of the GCP storage bucket"
+  type        = string
+  default     = "bsamunit-gcp-sandbox-003"
+}
+
+variable "bucket_name_suffix" {
+  description = "Suffix for the GCP storage bucket"
+  type        = string
+  default     = "-bucket" # example suffix
+}
+
 
 # A sample storage bucket
 resource "google_storage_bucket" "my_bucket" {
-  name     = "bsamunit-gcp-sandbox-003" + var.env_code
+  name     = var.env_code + var.bucket_name + var.bucket_name_suffix
   location = "US"
 
   storage_class = "STANDARD"

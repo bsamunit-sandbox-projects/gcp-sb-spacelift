@@ -1,7 +1,7 @@
 data "spacelift_current_stack" "this" {}
 
 resource "spacelift_stack" "slstack-cip-prj-dev-base" {
-  name        = Sample CIP Project Dev - Base"
+  name        = "Sample CIP Project Dev - Base"
   description = "Sample CIP Project Dev - Base, spacelift stack by Terraform"
 
   repository   = "gcp-sb-spacelift" 

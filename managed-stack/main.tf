@@ -29,7 +29,8 @@ variable "bucket_name_suffix" {
 
 # A sample storage bucket
 resource "google_storage_bucket" "my_bucket" {
-  name     = var.env_code + var.bucket_name + var.bucket_name_suffix
+  #name     = var.env_code + var.bucket_name + var.bucket_name_suffix
+  name      = "${var.env_code}-bsamunit-gcp-sandbox-003"
   location = "US"
 
   storage_class = "STANDARD"

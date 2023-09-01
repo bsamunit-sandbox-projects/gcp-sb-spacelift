@@ -99,14 +99,14 @@ resource "spacelift_context" "env-details-prod" {
   space_id    = "root"
 }
 
-resource "spacelift_environment_variable" "context-plaintext" {
+resource "spacelift_environment_variable" "context-env_code-dev" {
   context_id = spacelift_context.env-details-dev.id
   name       = "TF_VAR_env_code"
   value      = "dev"
   write_only = true
 }
 
-resource "spacelift_environment_variable" "context-plaintext" {
+resource "spacelift_environment_variable" "context-env_code-prod" {
   context_id = spacelift_context.env-details-prod.id
   name       = "TF_VAR_env_code"
   value      = "prod"

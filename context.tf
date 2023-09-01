@@ -115,7 +115,7 @@ resource "spacelift_environment_variable" "context-env_code-prod" {
 
 resource "spacelift_context_attachment" "env-details-dev" {
   context_id = spacelift_context.env-details-dev.id
-  stack_id   = spacelift_stack.slcontext-cip-prj-base.id
+  stack_id   = spacelift_stack.slstack-cip-prj-dev-base.id
   priority   = 1
 }
 

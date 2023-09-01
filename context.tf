@@ -85,3 +85,37 @@ resource "spacelift_context_attachment" "managed" {
   stack_id   = spacelift_stack.managed.id
   priority   = 0
 }
+
+# Environment related parameters 
+resource "spacelift_context" "env-details-dev" {
+  name        = "Env Details - DEV"
+  description = "Environment parameters for DEV"
+  space_id    = "root"
+}
+
+resource "spacelift_context" "env-details-prod" {
+  name        = "Env Details - PROD"
+  description = "Environment parameters for PROD"
+  space_id    = "root"
+}
+
+resource "spacelift_environment_variable" "context-plaintext" {
+  context_id = spacelift_context.env-details-dev.id
+  name       = "TF_VAR_env_code"
+  value      = "dev"
+  write_only = true
+}
+
+resource "spacelift_environment_variable" "context-plaintext" {
+  context_id = spacelift_context.env-details-prod.id
+  name       = "TF_VAR_env_code"
+  value      = "prod"
+  write_only = true
+}
+
+resource "spacelift_context_attachment" "env-details-dev" {
+  context_id = spacelift_context.env-details-dev.id
+  stack_id   = spacelift_stack.managed.id
+  priority   = 1
+}
+

@@ -77,7 +77,7 @@ resource "spacelift_mounted_file" "stack-secret-file" {
 }
 
 # Setup the GCP integration using terraform provider rather than Spacelift UI
-resource "spacelift_gcp_service_account" "gcp-integration" {
+resource "spacelift_stack_gcp_service_account" "gcp-integration" {
   stack_id = spacelift_stack.managed.id
 
   token_scopes = [
@@ -89,7 +89,7 @@ resource "spacelift_gcp_service_account" "gcp-integration" {
   ]
 }
 
-resource "google_project_iam_member" "k8s-core" {
+resource "google_project_iam_member" "spacelift-gcp-svc-account" {
   project = "bsamunit-sandbox-projects"
   role    = "roles/owner"
   member  = "serviceAccount:${spacelift_stack_gcp_service_account.gcp-integration.service_account_email}"

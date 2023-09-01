@@ -75,3 +75,22 @@ resource "spacelift_mounted_file" "stack-secret-file" {
   relative_path = "stack-secret-password.json"
   content       = base64encode(jsonencode({ password = random_password.stack-password.result }))
 }
+
+# Setup the GCP integration using terraform provider rather than Spacelift UI
+resource "spacelift_gcp_service_account" "gcp-integration" {
+  stack_id = spacelift_stack.managed.id
+
+  token_scopes = [
+    "https://www.googleapis.com/auth/compute",
+    "https://www.googleapis.com/auth/cloud-platform",
+    "https://www.googleapis.com/auth/ndev.clouddns.readwrite",
+    "https://www.googleapis.com/auth/devstorage.full_control",
+    "https://www.googleapis.com/auth/userinfo.email",
+  ]
+}
+
+resource "google_project_iam_member" "k8s-core" {
+  project = "bsamunit-sandbox-projects"
+  role    = "roles/owner"
+  member  = "serviceAccount:${spacelift_stack_gcp_service_account.gcp-integration.service_account_email}"
+}

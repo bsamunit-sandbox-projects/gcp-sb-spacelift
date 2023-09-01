@@ -11,6 +11,7 @@ resource "spacelift_policy" "access" {
 
   name = "All of Engineering gets read access"
   body = file("${path.module}/policies/access.rego")
+  space_id  = "root"
 }
 
 # Access policies only take effect when attached to the stack.

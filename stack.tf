@@ -1,8 +1,8 @@
 data "spacelift_current_stack" "this" {}
 
-resource "spacelift_stack" "managed" {
-  name        = "Managed stack"
-  description = "Your first stack managed by Terraform"
+resource "spacelift_stack" "slstack-cip-prj-dev-base" {
+  name        = Sample CIP Project Dev - Base"
+  description = "Sample CIP Project Dev - Base, spacelift stack by Terraform"
 
   repository   = "gcp-sb-spacelift" 
   branch       = "main"
@@ -10,7 +10,7 @@ resource "spacelift_stack" "managed" {
 
   space_id     = "root"
   autodeploy   = true
-  labels       = ["managed", "depends-on:${data.spacelift_current_stack.this.id}"]
+  labels       = ["slstack-cip-prj-dev-base", "depends-on:${data.spacelift_current_stack.this.id}"]
 }
 
 # This is an environment variable defined on the stack level. Stack-level
@@ -22,7 +22,7 @@ resource "spacelift_stack" "managed" {
 #
 # https://docs.spacelift.io/concepts/environment#environment-variables
 resource "spacelift_environment_variable" "stack-plaintext" {
-  stack_id   = spacelift_stack.managed.id
+  stack_id   = spacelift_stack.slstack-cip-prj-dev-base.id
   name       = "STACK_PUBLIC"
   value      = "This should be visible!"
   write_only = false
@@ -44,7 +44,7 @@ resource "random_password" "stack-password" {
 # If you accidentally print it out to the logs, no worries: we will obfuscate
 # every secret thing we know of.
 resource "spacelift_environment_variable" "stack-writeonly" {
-  stack_id = spacelift_stack.managed.id
+  stack_id = spacelift_stack.slstack-cip-prj-dev-base.id
   name     = "STACK_SECRET"
   value    = random_password.stack-password.result
 }
@@ -62,7 +62,7 @@ data "spacelift_ips" "ips" {}
 #
 # https://docs.spacelift.io/concepts/environment#mounted-files
 resource "spacelift_mounted_file" "stack-plaintext-file" {
-  stack_id      = spacelift_stack.managed.id
+  stack_id      = spacelift_stack.slstack-cip-prj-dev-base.id
   relative_path = "stack-plaintext-ips.json"
   content       = base64encode(jsonencode(data.spacelift_ips.ips.ips))
   write_only    = false
@@ -72,14 +72,14 @@ resource "spacelift_mounted_file" "stack-plaintext-file" {
 # write-only mounted files cannot be accessed neither from the GUI nor from the
 # GraphQL API.
 resource "spacelift_mounted_file" "stack-secret-file" {
-  stack_id      = spacelift_stack.managed.id
+  stack_id      = spacelift_stack.slstack-cip-prj-dev-base.id
   relative_path = "stack-secret-password.json"
   content       = base64encode(jsonencode({ password = random_password.stack-password.result }))
 }
 
 # Setup the GCP integration using terraform provider rather than Spacelift UI
 resource "spacelift_stack_gcp_service_account" "gcp-integration" {
-  stack_id = spacelift_stack.managed.id
+  stack_id = spacelift_stack.slstack-cip-prj-dev-base.id
 
   token_scopes = [
     "https://www.googleapis.com/auth/compute",
